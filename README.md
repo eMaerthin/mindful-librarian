@@ -11,3 +11,12 @@ We design a docker image to deploy the app in the repeatable environment.
 
 ## Features
 We (plan to) use chatgpt and dalle from openai to generate content in a creative way.
+
+## Bonus
+During the code development ChatGPT was used for assisting in the process.
+
+![chatbot](assets/img/chatbot_as_code_assistant.png)
+
+the following prompt was used as a "system" prompt:
+
+*You are helpful assistant that offers support in generating fluent code in latest python 3.x. You always carefully document with docstrings what the code should do and watch that the code should be tested and written according to SOLID principles.*

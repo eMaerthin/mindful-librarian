@@ -1,0 +1,13 @@
+bson
+certifi
+flask
+flask-jwt-extended
+flask-restful
+flask-restx
+flasgger
+numpy
+openai
+pandas
+pymongo
+python-dotenv
+Pillow

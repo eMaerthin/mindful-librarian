@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add a series of images</title>
+    <style>
+        .tag {
+            display: inline-block;
+            padding: 5px;
+            margin: 5px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add a series of images</h1>
+    <form method="POST" action="/add_asset_type1">
+        <label for="styleContainer">Style:</label>
+        <Br /> Hint: Describe what you would like to generate, for instance <br/>
+        <ul>
+            <li><tt>drawing of a hedgehog using pastel colours that resembles mood {mood}, digital art</tt></li>
+            <li><tt>drawing of {animal} in a peaceful background, in the nature, digital art</tt></li>
+        </ul>
+        <br />
+        <textarea id="styleContainer" name="style" rows="6" columns="30" required>drawing of a hedgehog using pastel colours that resembles mood {mood}, digital art</textarea>
+        <br><br>
+
+        <label for="tags">Tags:</label>
+        <br /> Hint: Describe how you would like to index the asset we're generating here, e.g. <tt>Ages8-9</tt><br/>
+        <input type="text" id="tags" name="tags">
+        <button type="button" onclick="addTag()">Add Tag</button>
+        <div id="tagContainer"></div><br><br>
+
+        <label for="numImages">Number of Images:</label>
+        <input type="number" id="numImages" name="numImages" min="1" max="9" value="1" required onchange="refreshGrid()"><br><br>
+        Hint: for each image please fill what is the placeholder value, for instance for input<br/>
+        <tt>drawing of a hedgehog using pastel colours that resembles mood {mood}, digital art</tt><br/>
+        you can fill below {mood} values like: "anxiety", "happiness", "loneliness", "boredom"<br/>
+
+        <div id="itemContainer"></div><br><br>
+
+        <button type="button" onclick="generateImages()">Generate Images</button><br><br>
+
+        Preview:<br />
+        <div id="preview"></div><br><br>
+        <button type="button" onclick="saveAsset()">Save</button>
+        <button type="button" onclick="cancel()">Cancel</button>
+    </form>
+
+    <script>
+        var tagContainer = document.getElementById('tagContainer');
+        var itemContainer = document.getElementById('itemContainer');
+        var styleContainer = document.getElementById('styleContainer');
+        var previewContainer = document.getElementById('preview');
+        refreshGrid();
+
+        function addTag() {
+            var tagInput = document.getElementById('tags');
+            var tag = tagInput.value.trim();
+            if (tag !== '') {
+                var tagElement = document.createElement('span');
+                tagElement.className = 'tag';
+                tagElement.textContent = tag;
+                tagContainer.appendChild(tagElement);
+                tagInput.value = '';
+            }
+        }
+
+        function refreshGrid() {
+            var numImagesInput = document.getElementById('numImages');
+            var numImages = parseInt(numImagesInput.value);
+            itemContainer.innerHTML = '';
+            mood = ["anxiety", "happiness", "loneliness", "boredom", "emptiness", "fear", "anger"];
+            for (var i = 1; i <= numImages; i++) {
+                var itemInput = document.createElement('input');
+                itemInput.type = 'text';
+                itemInput.name = 'item' + i;
+                itemInput.placeholder = 'Item ' + i;
+                if(i <= mood.length) {
+                    itemInput.value = mood[i - 1];
+                }
+                itemContainer.appendChild(itemInput);
+                itemContainer.appendChild(document.createElement('br'));
+            }
+        }
+
+        function generateImages() {
+            var numImagesInput = document.getElementById('numImages');
+            var numImages = parseInt(numImagesInput.value);
+            var style = styleContainer.value;
+            itemContainer = document.getElementById('itemContainer');
+            preview.innerHTML = '';
+            for (var i=1; i<= numImages; i++) {
+                var replace = itemContainer.children[2 * (i - 1) ].value;
+                console.log(replace);
+                var item = document.createElement('textarea');
+                item.id = "text" + i;
+                item.rows = 6; // Set the number of rows
+                item.cols = 40; // Set the number of columns
+                var str = style;
+                var replacedStr = str.replace(/\{([^}]+)\}/g, function(match, capture) {
+                  return replace;
+                });
+                item.value = replacedStr;
+                var image = document.createElement('img');
+                image.id = "img" + i;
+                image.rows = 6;
+                image.cols = 40;
+                preview.appendChild(item);
+                preview.appendChild(image);
+                preview.appendChild(document.createElement('br'));
+            }
+            for (var i=1; i<=numImages; i++) {
+                var item = document.getElementById('text' + i);
+                fetch('/image', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                    'input': item.value,
+                    'id': 'img' + i
+                  })
+                })
+                  .then(response => response.json())
+                  .then(data => {
+                    console.log(i);
+                    console.log(data);
+                    // Handle the response data
+                    document.getElementById(data["id"]).src = data["url"];
+                  })
+                .catch(error => {
+                  // Handle any errors
+                  console.error(error);
+                });
+            }
+        }
+
+        function cancel() {
+            var confirmed = confirm('Are you sure you want to cancel?');
+            if (confirmed) {
+              window.location.href = '/welcome'; // Replace with the URL of your welcome page
+            }
+        }
+
+        // Collect the image URLs in an array
+        var imageUrls = [];
+
+        // Function to call the build_mosaic route and save the asset to mongodb
+        function saveAsset() {
+          var numImagesInput = document.getElementById('numImages');
+          var numImages = parseInt(numImagesInput.value);
+          imageUrls = [];
+          for (var i=1; i<=numImages; i++) {
+            imageUrls.push(document.getElementById("img"+i).src);
+          }
+          console.log(imageUrls);
+          // Create the request body as a JSON object
+          var requestBody = {
+            input: imageUrls
+          };
+
+          // Send the POST request to the build_mosaic route
+          fetch('/build_mosaic', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: requestBody
+          })
+            .then(response => response.json())
+            .then(data => {
+              // Handle the response data
+              console.log(data);
+            })
+            .catch(error => {
+              // Handle any errors
+              console.error(error);
+            });
+        }
+    </script>
+</body>
+</html>
