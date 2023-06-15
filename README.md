@@ -14,7 +14,7 @@ We use dalle from openai to generate content in a creative way.
 We planned to use gpt to generate textual content, too.
 
 ## Diagram
-![diagram](/Users/marcinbodych/Workspace/mindful-librarian/assets/img/diagram.png)
+![diagram](assets/img/diagram.png)
 
 ## Bonus
 During the code development ChatGPT was used for assisting in the process.
