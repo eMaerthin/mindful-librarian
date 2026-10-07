@@ -111,7 +111,8 @@ def add_asset():
     return render_template('add_asset_type1.html')
 
 
-test_image_dict = {
+test_image_dict = {}
+"""
     'drawing of a hedgehog using pastel colours that resembles mood anxiety, digital art': 'https://oaidalleapiprodscus.blob.core.windows.net/private/org-TGLG42S8xYW1UWHtlGqY8fW3/user-maoT5wjkgIbhvhlYG1m0vwEj/img-BlI0Gqvq36cPPekrqdH1LXDR.png?st=2023-06-15T09%3A15%3A45Z&se=2023-06-15T11%3A15%3A45Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-06-14T21%3A22%3A49Z&ske=2023-06-15T21%3A22%3A49Z&sks=b&skv=2021-08-06&sig=WYYVxWp6XQwQEnCEwJwqUqKgnTZYm6P6JzzQOhoUV1I%3D',
     'drawing of a hedgehog using pastel colours that resembles mood happiness, digital art': 'https://oaidalleapiprodscus.blob.core.windows.net/private/org-TGLG42S8xYW1UWHtlGqY8fW3/user-maoT5wjkgIbhvhlYG1m0vwEj/img-rLs6Vn9zYjgqoDXd2vo0e5fU.png?st=2023-06-15T09%3A15%3A45Z&se=2023-06-15T11%3A15%3A45Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-06-14T21%3A33%3A33Z&ske=2023-06-15T21%3A33%3A33Z&sks=b&skv=2021-08-06&sig=nv5Ctp6vtzm62Jn6apg/cBs47YndeL9kS4eN1nWn7uE%3D',
     'drawing of a hedgehog using pastel colours that resembles mood loneliness, digital art': 'https://oaidalleapiprodscus.blob.core.windows.net/private/org-TGLG42S8xYW1UWHtlGqY8fW3/user-maoT5wjkgIbhvhlYG1m0vwEj/img-ZnE7Y0CO4Rh0jprLVAfLBlqH.png?st=2023-06-15T09%3A15%3A45Z&se=2023-06-15T11%3A15%3A45Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-06-14T21%3A30%3A48Z&ske=2023-06-15T21%3A30%3A48Z&sks=b&skv=2021-08-06&sig=ugb2QxhthT2y8hYFdxmDOPwrnW0cjZDwiYoglbXVUyI%3D',
@@ -120,6 +121,7 @@ test_image_dict = {
     'drawing of a hedgehog using pastel colours that resembles mood fear, digital art': 'https://oaidalleapiprodscus.blob.core.windows.net/private/org-TGLG42S8xYW1UWHtlGqY8fW3/user-maoT5wjkgIbhvhlYG1m0vwEj/img-bbTdqeMUMDhs9ymFIVjYdbnj.png?st=2023-06-15T09%3A15%3A46Z&se=2023-06-15T11%3A15%3A46Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-06-14T21%3A22%3A49Z&ske=2023-06-15T21%3A22%3A49Z&sks=b&skv=2021-08-06&sig=pXKkrRuZuAdqeZG3rz9tw2mzJ5guNyWkvqrfANlStu8%3D',
     'drawing of a hedgehog using pastel colours that resembles mood anger, digital art': 'https://oaidalleapiprodscus.blob.core.windows.net/private/org-TGLG42S8xYW1UWHtlGqY8fW3/user-maoT5wjkgIbhvhlYG1m0vwEj/img-EW2v1608cLZeyKJVY6plcwBx.png?st=2023-06-15T08%3A59%3A21Z&se=2023-06-15T10%3A59%3A21Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-06-14T21%3A25%3A34Z&ske=2023-06-15T21%3A25%3A34Z&sks=b&skv=2021-08-06&sig=7mkSVOqC7%2BSvrQr0fXXagijcrmfK9kFkYW7FtVLu8uo%3D'
 }
+"""
 
 def image_to_data_uri(image):
     # Convert the image to a data URI
